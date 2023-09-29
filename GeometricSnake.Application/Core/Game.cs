@@ -1,8 +1,11 @@
 ﻿using GeometricSnake.Application.Core.Enums;
 using GeometricSnake.Application.Core.Models;
 using System;
+using System.Collections.Generic;
+using System.DirectoryServices.ActiveDirectory;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Shapes;
 
@@ -175,17 +178,40 @@ namespace GeometricSnake.Application.Core
 
         private Point GetRandomPoint()
         {
-            int x = GetFixedValue(Random.Shared.Next(0, Width - (food.SizeBlock * 2)), food.SizeBlock);
-            int y = GetFixedValue(Random.Shared.Next(0, Height - (food.SizeBlock * 2)), food.SizeBlock);
-            return new Point(x, y);
+            var points = GetAvaiblePoints();
+            return points[Random.Shared.Next(0, points.Count - 1)];
+        }
+
+        private List<Point> GetAvaiblePoints()
+        {
+            List<Point> pontos = new List<Point>();
+            for(int i = 1;i <= (Width - food.SizeBlock); i += food.SizeBlock)
+            {
+                for(int j = 1;j<=(Height - (food.SizeBlock * 2));j += food.SizeBlock)
+                {
+                    bool existe = false;
+                    foreach(var part in player.parts)
+                    {
+                        Rect r = new Rect(Canvas.GetLeft(part), Canvas.GetTop(part), part.Width, part.Height);
+                        if (r.IntersectsWith(new(i + (int)(food.SizeBlock / 2), j + (int)(food.SizeBlock / 2), 2, 2)))
+                        {
+                            existe = true;
+                            break;
+                        }
+                    }
+                    if (!existe)
+                        pontos.Add(new Point(GetFixedValue(i, food.SizeBlock), GetFixedValue(j, food.SizeBlock)));
+                }
+            }
+            return pontos;
         }
 
         private int GetFixedValue(int value, int sizeBlock)
         {
             if (value <= sizeBlock)
-                return 0;
+                return 1;
 
-            return ((int)(value / sizeBlock) * sizeBlock);
+            return (int)Math.Round((double)value / sizeBlock) * sizeBlock;
         }
     }
 }
