@@ -8,6 +8,7 @@
         Title="Geometric Snake" Height="300" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Canvas Name="canvas" Focusable="True" Background="LightGreen" KeyDown="OnKeyDown" KeyUp="OnKeyUp">
         <Label Name="size">Score: 0</Label>
+        <Label Name="maxScore" Canvas.Right="0">Max Score: 0</Label>
         <Rectangle Name="pause_panel" Canvas.Left="0" Canvas.Top="0" Width="400" Height="300" Panel.ZIndex="5" Visibility="Hidden">
 
         </Rectangle>
