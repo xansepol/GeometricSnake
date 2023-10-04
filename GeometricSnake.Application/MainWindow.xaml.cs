@@ -28,7 +28,7 @@ namespace GeometricSnake.Application
 
             game = new Game((int)System.Windows.Application.Current.MainWindow.Width,
                             (int)System.Windows.Application.Current.MainWindow.Height, size, 
-                            new SimplePanel(pause_desc, pause_panel), new SimplePanel(gameover_desc, gameover_panel), canvas);
+                            new SimplePanel(pause_desc, pause_panel), new SimplePanel(gameover_desc, gameover_panel), canvas, maxScore);
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(SPEED);

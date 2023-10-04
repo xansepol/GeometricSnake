@@ -1,5 +1,6 @@
 ﻿using GeometricSnake.Application.Core.Enums;
 using GeometricSnake.Application.Core.Models;
+using GeometricSnake.Application.DB;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices.ActiveDirectory;
@@ -20,13 +21,14 @@ namespace GeometricSnake.Application.Core
         public bool IsPlaying { get; private set; } = true;
         public bool GameOver { get; private set; } = false;
         private Label labelSize;
+        private Label maxScore;
         private SimplePanel pausePanel;
         private SimplePanel gameOverPanel;
         private Canvas canvas;
 
         public int Score { get; private set; }
 
-        public Game(int width, int height, Label labelSize, SimplePanel pausePanel, SimplePanel gameOverPanel, Canvas canvas)
+        public Game(int width, int height, Label labelSize, SimplePanel pausePanel, SimplePanel gameOverPanel, Canvas canvas, Label maxScore)
         {
             Width = width;
             Height = height;
@@ -36,10 +38,12 @@ namespace GeometricSnake.Application.Core
             this.pausePanel = pausePanel;
             this.gameOverPanel = gameOverPanel;
             this.canvas = canvas;
+            this.maxScore = maxScore;
         }
 
         public void Init()
         {
+            maxScore.Content = $"Max Score: {ScoreDB.Instance().Score}";
             player.Init(canvas);
             SpawnFood();
         }
@@ -58,6 +62,7 @@ namespace GeometricSnake.Application.Core
             ClearCanvas();
             Init();
             Score = 0;
+            maxScore.Content = $"Max Score: {ScoreDB.Instance().Score}";
             labelSize.Content = $"Score: {Score}";
             gameOverPanel.Hidden();
             GameOver = false;
@@ -171,6 +176,7 @@ namespace GeometricSnake.Application.Core
 
         private void SetGameOver()
         {
+            ScoreDB.Instance().SetScore(Score);
             GameOver = true;
             SetPlaying(false);
             gameOverPanel.Show();
