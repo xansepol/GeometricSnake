@@ -3,7 +3,10 @@ Jogo da cobrinha simples apenas para passar o tempo
 ![Geometric](assets/game.gif)
 
 # Tecnologias
-Feito em C# com WPF e .Net Core 7.0
+- C#
+- WPF(Windows Presentation Foundation)
+- .Net Core 7.0
+- SQLite
 
 # Controles
 ``P`` = Pausa/Continua
