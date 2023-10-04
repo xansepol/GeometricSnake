@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="Geometric Snake" Height="300" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Canvas Name="canvas" Focusable="True" Background="LightGreen" KeyDown="OnKeyDown" KeyUp="OnKeyUp">
+        <MediaElement Name="music" Volume="0.5" IsMuted="False" LoadedBehavior="Manual" UnloadedBehavior="Manual"></MediaElement>
+        <MediaElement Name="musicFood" Volume="1" IsMuted="False" LoadedBehavior="Manual" UnloadedBehavior="Manual"></MediaElement>
         <Label Name="size">Score: 0</Label>
         <Label Name="maxScore" Canvas.Right="0">Max Score: 0</Label>
         <Rectangle Name="pause_panel" Canvas.Left="0" Canvas.Top="0" Width="400" Height="300" Panel.ZIndex="5" Visibility="Hidden">

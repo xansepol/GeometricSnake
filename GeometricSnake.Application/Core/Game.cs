@@ -24,11 +24,13 @@ namespace GeometricSnake.Application.Core
         private Label maxScore;
         private SimplePanel pausePanel;
         private SimplePanel gameOverPanel;
+        private MediaElement music;
         private Canvas canvas;
+        private MediaElement foodEfecct;
 
         public int Score { get; private set; }
 
-        public Game(int width, int height, Label labelSize, SimplePanel pausePanel, SimplePanel gameOverPanel, Canvas canvas, Label maxScore)
+        public Game(int width, int height, Label labelSize, SimplePanel pausePanel, SimplePanel gameOverPanel, Canvas canvas, Label maxScore, MediaElement music, MediaElement foodEfecct)
         {
             Width = width;
             Height = height;
@@ -39,10 +41,14 @@ namespace GeometricSnake.Application.Core
             this.gameOverPanel = gameOverPanel;
             this.canvas = canvas;
             this.maxScore = maxScore;
+            this.music = music;
+            this.foodEfecct = foodEfecct;
         }
 
         public void Init()
         {
+            music.Position = TimeSpan.Zero;
+            music.Play();
             maxScore.Content = $"Max Score: {ScoreDB.Instance().Score}";
             player.Init(canvas);
             SpawnFood();
@@ -95,6 +101,8 @@ namespace GeometricSnake.Application.Core
             {
                 if (food.CheckIntersect(player.parts[0]))
                 {
+                    foodEfecct.Position = TimeSpan.Zero;
+                    foodEfecct.Play();
                     player.AddPart(canvas);
                     Score += 10 * food.CounterTimer;
                     labelSize.Content = $"Score: {Score}";
@@ -162,12 +170,14 @@ namespace GeometricSnake.Application.Core
                     SetPlaying(false);
                     food.Pause();
                     pausePanel.Show();
+                    music.Pause();
                 }
                 else
                 {
                     pausePanel.Hidden();
                     SetPlaying(true);
                     food.Resume();
+                    music.Play();
                 }
             }
         }
@@ -180,6 +190,7 @@ namespace GeometricSnake.Application.Core
             GameOver = true;
             SetPlaying(false);
             gameOverPanel.Show();
+            music.Stop();
         }
 
         private Point GetRandomPoint()

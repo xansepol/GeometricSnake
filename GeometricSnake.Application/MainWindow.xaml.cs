@@ -23,12 +23,20 @@ namespace GeometricSnake.Application
         {
             InitializeComponent();
 
+            music.Source = new Uri("file://" + AppDomain.CurrentDomain.BaseDirectory + "soundGame.mp3");
+            music.MediaEnded += (sender, e) => {
+                music.Position = TimeSpan.Zero;
+                music.Play();
+            };
+
+            musicFood.Source = new Uri("file://" + AppDomain.CurrentDomain.BaseDirectory + "foodSound.mp3");
+
             pause_panel.Fill = new SolidColorBrush(Color.FromArgb(100, 0, 0, 0));
             gameover_panel.Fill = new SolidColorBrush(Color.FromArgb(100, 90, 0, 0));
 
             game = new Game((int)System.Windows.Application.Current.MainWindow.Width,
                             (int)System.Windows.Application.Current.MainWindow.Height, size, 
-                            new SimplePanel(pause_desc, pause_panel), new SimplePanel(gameover_desc, gameover_panel), canvas, maxScore);
+                            new SimplePanel(pause_desc, pause_panel), new SimplePanel(gameover_desc, gameover_panel), canvas, maxScore, music, musicFood);
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(SPEED);
